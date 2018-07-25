@@ -26,7 +26,6 @@ void finufft_default_opts(nufft_opts &o)
   o.spread_kerpad = 1;      // (relevant iff kerevalmeth=0)
   o.fftw = FFTW_ESTIMATE;   // use FFTW_MEASURE for slow first call, fast rerun
   o.modeord = 0;
-  o.many_seq = 0;
 }
 
 int setup_spreader_for_nufft(spread_opts &spopts, FLT eps, nufft_opts opts)
@@ -40,7 +39,7 @@ int setup_spreader_for_nufft(spread_opts &spopts, FLT eps, nufft_opts opts)
   spopts.chkbnds = opts.chkbnds;
   spopts.pirange = 1;                 // could allow user control?
   return ier;
-} 
+}
 
 void set_nf_type12(BIGINT ms, nufft_opts opts, spread_opts spopts, BIGINT *nf)
 // type 1 & 2 recipe for how to set 1d size of upsampled array, nf, given opts
@@ -187,7 +186,7 @@ void onedim_nuft_kernel(BIGINT nk, FLT *k, FLT *phihat, spread_opts opts)
     for (int n=0;n<q;++n) x += f[n] * 2*cos(k[j]*z[n]);  // pos & neg freq pair
     phihat[j] = x;
   }
-}  
+}
 
 void deconvolveshuffle1d(int dir,FLT prefac,FLT* ker, BIGINT ms,
 			 FLT *fk, BIGINT nf1, FFTW_CPX* fw, int modeord)

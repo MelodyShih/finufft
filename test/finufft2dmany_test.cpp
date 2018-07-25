@@ -50,12 +50,11 @@ int main(int argc, char* argv[])
   opts.debug = debug;
   opts.spread_debug = (debug>1) ? 1 : 0;  // see output from spreader
   if (argc>7) sscanf(argv[7],"%d",&opts.spread_sort);
-  if (argc>8) sscanf(argv[8],"%d",&opts.many_seq);
-  if (argc>9) sscanf(argv[9],"%lf",&upsampfac);
+  if (argc>8) sscanf(argv[8],"%lf",&upsampfac);
   opts.upsampfac=(FLT)upsampfac;
 
-  if (argc==1 || argc==2 || argc>10) {
-    fprintf(stderr,"Usage: finufft2d_test [ndata [N1 N2 [Nsrc [tol [debug [spread_sort [many_seq [upsampfac]]]]]]\n");
+  if (argc==1 || argc==2 || argc>9) {
+    fprintf(stderr,"Usage: finufft2d_test [ndata [N1 N2 [Nsrc [tol [debug [spread_sort [upsampfac]]]]]\n");
     return 1;
   }
   cout << scientific << setprecision(15);
@@ -63,7 +62,7 @@ int main(int argc, char* argv[])
 
   FLT* x = (FLT*)malloc(sizeof(FLT)*M);  // NU pts x coords
   FLT* y = (FLT*)malloc(sizeof(FLT)*M);  // NU pts y coords
-  CPX* c = (CPX*)malloc(sizeof(CPX)*M*ndata);   // strengths 
+  CPX* c = (CPX*)malloc(sizeof(CPX)*M*ndata);   // strengths
   CPX* F = (CPX*)malloc(sizeof(CPX)*N*ndata);   // mode ampls
 
 #pragma omp parallel
@@ -145,7 +144,7 @@ int main(int argc, char* argv[])
   } else
     printf("\t%d data: (%ld,%ld) modes to %ld NU pts in %.3g s \t%.3g NU pts/s\n",
            ndata,(BIGINT)N1,(BIGINT)N2,(BIGINT)M,ti,ndata*M/ti);
-  
+
   fftw_forget_wisdom();
   opts.debug = 0; // don't output timing for calls of finufft2d1
   opts.spread_debug = 0;
@@ -160,7 +159,7 @@ int main(int argc, char* argv[])
   }
   t = timer.elapsedsec();
   printf("\tT_finufft2d/ T_finufft2dmany = %.3g\n", t/ti);
-  
+
   d = floor(ndata/2); // choose a data to check
   BIGINT jt = M/2;    // check arbitrary choice of one targ pt
   CPX ct = CPX(0,0);
