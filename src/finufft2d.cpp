@@ -321,33 +321,6 @@ int finufft2d3(BIGINT nj,FLT* xj,FLT* yj,CPX* cj,int iflag, FLT eps, BIGINT nk, 
   return 0;
 }
 
-#if 0
-// Codes for 2d1many
-FFTW_PLAN finufft2d1plan(BIGINT n1, BIGINT n2, FFTW_CPX* in, int fftsign, nufft_opts opts, int nth)
-{
-  if (nth>1) {             // set up multithreaded fftw stuff...
-    FFTW_INIT();
-    FFTW_PLAN_TH(nth);
-  }
-  CNTime timer; timer.start();
-  FFTW_PLAN p = FFTW_PLAN_2D(n2,n1,in,in,fftsign,opts.fftw);  // in-place
-  if (opts.debug) printf("fftw plan (%d)    \t %.3g s\n",opts.fftw,timer.elapsedsec());
-
-  return p;
-}
-
-void finufft2d1execute(FFTW_PLAN p)
-{
-  FFTW_EX(p);
-}
-
-void finufft2d1destroy(FFTW_PLAN p)
-{
-  FFTW_DE(p);
-  fftw_cleanup();
-}
-#endif
-
 static int finufft2d1manyseq(int ndata, BIGINT nj, FLT* xj, FLT *yj, CPX* c,
                              int iflag, FLT eps, BIGINT ms, BIGINT mt, CPX* fk,
                              nufft_opts opts)
