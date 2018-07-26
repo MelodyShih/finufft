@@ -52,8 +52,6 @@ the default double-precision, or ``single`` if single precision:
   int fftw;           // 0:FFTW_ESTIMATE, or 1:FFTW_MEASURE (slow plan but faster)
   int modeord;        // 0: CMCL-style increasing mode ordering (neg to pos), or
                       // 1: FFT-style mode ordering (affects type-1,2 only)
-  int many_seq;       // 0: simultaneously do nufft on all data
-                      // 1: sequentially run through the data
   FLT upsampfac;      // upsampling ratio sigma, either 2.0 (standard) or 1.25 (small FFT)
 
 Here are their default settings (set in ``../src/common.cpp:finufft_default_opts``):
@@ -68,7 +66,6 @@ Here are their default settings (set in ``../src/common.cpp:finufft_default_opts
   chkbnds = 0;
   fftw = FFTW_ESTIMATE;
   modeord = 0;
-  many_seq = 0;
   upsampfac = (FLT)2.0;
 
 Notes on various options:
@@ -92,8 +89,6 @@ However, the kernel widths :math:`w` are about 50% larger in each dimension,
 which can lead to slower spreading (it can also be faster due to the smaller
 size of the fine grid).
 Thus only 9-digit accuracy can be reached with ``upsampfac=1.25``.
-
-``many_seq``: see :ref:`The "many" interface` for details.
 
 .. _errcodes:
 

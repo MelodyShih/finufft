@@ -35,7 +35,6 @@ extensions = [
     'sphinx.ext.todo',
     'sphinx.ext.napoleon',
     'sphinx.ext.mathjax',
-    'sphinx.ext.autosectionlabel',
     'texext',
 ]
 

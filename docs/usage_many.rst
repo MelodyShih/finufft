@@ -80,26 +80,3 @@ The "many" interface
   2) compute inverse FFT on uniform fine grid
   3) spread (dir=2, ie interpolate) data to regular mesh
   The kernel coeffs are precomputed in what is called step 0 in the code.
-
-Design notes
-~~~~~~~~~~~~
-The ``many_seq`` option controls the algorithm to use when we run the code with multiple
-threads. When running with 1 thread, the only difference between the two
-algorithms comes from the fftw library: if ``many_seq=1``, we use the basic interface,
-``fftw_plan_dft_2d``; if ``many_seq=0``, we use an advanced one, ``fftw_plan_many_dft``,
-but asking it to compute FFT for one data each time.
-
-When running with nth threads, if ``many_seq=0``, nth of data are processed
-simultaneously. Taking 2D type 1 transform as an example, the algorithm proceeds
-in following three steps:
-  1) Each thread calls a single-threaded spreader.
-  2) Apply FFT on nths of data using the many interface providing by fftw.
-  3) Each thread calls a single-threaded deconvolve function.
-
-If ``many_seq=1``, then all the data are processed sequentially. We simply add a
-big for loop looping through all the data around the original code and move the
-memory pointer correspondingly for each iteration.
-
-For both algorithms, we reuse the plan and sorted index of the source points
-for all the data, i.e. the plan and the sorting function are only called
-once at the very beginning of the many interface.
